@@ -1,13 +1,11 @@
 {
   "name": "dappnode-exporter.dnp.dappnode.eth",
-  "version": "0.1.1",
+  "version": "0.1.3",
   "description": "Package responsible of get metrics from the system to be able to check its healthy, based on the tools cadvisor and node_exporter.",
   "shortDescription": "DAppNode prometheus exporter",
   "type": "service",
   "author": "Eduardo Antuña <eduadiez@gmail.com> (https://github.com/eduadiez)",
-  "categories": [
-    "Monitoring"
-  ],
+  "categories": ["Monitoring"],
   "links": {
     "cadvisor": "http://dappnode-exporter.dappnode:8080",
     "node_exporter": "http://dappnode-exporter.dappnode:9100"
