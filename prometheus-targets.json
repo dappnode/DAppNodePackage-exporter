@@ -1,0 +1,14 @@
+[
+  {
+    "labels": {
+      "job": "nodeexporter"
+    },
+    "targets": ["dappnode-exporter.dappnode:9100"]
+  },
+  {
+    "labels": {
+      "job": "cadvisor"
+    },
+    "targets": ["dappnode-exporter.dappnode:8080"]
+  }
+]
