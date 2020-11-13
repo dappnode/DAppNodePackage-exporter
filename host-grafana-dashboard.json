@@ -3,6 +3,7 @@
     "list": []
   },
   "description": "DAppNode host metrics",
+  "uid": "host-dappnode-exporter",
   "editable": true,
   "gnetId": null,
   "graphTooltip": 1,

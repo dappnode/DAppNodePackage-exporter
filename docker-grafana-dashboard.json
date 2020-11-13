@@ -1503,7 +1503,7 @@
     },
     "timezone": "browser",
     "title": "DAppNode Monitor",
-    "uid": "DNMO",
+    "uid": "docker-dappnode-exporter",
     "variables": {
         "list": []
     },
