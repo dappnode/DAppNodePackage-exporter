@@ -4,13 +4,22 @@
   "description": "Package responsible of get metrics from the system to be able to check its healthy, based on the tools cadvisor and node_exporter.",
   "shortDescription": "DAppNode prometheus exporter",
   "type": "service",
-  "author": "Eduardo Antuña <eduadiez@gmail.com> (https://github.com/eduadiez)",
-  "categories": [
-    "Monitoring"
+  "author": "DAppNode Association <admin@dappnode.io> (https://github.com/dappnode)",
+  "contributors": [
+    "Eduardo Antuña <eduadiez@gmail.com> (https://github.com/eduadiez)",
+    "DAppLion <dapplion@giveth.io> (https://github.com/dapplion)"
   ],
+  "categories": ["Monitoring"],
   "links": {
     "cadvisor": "http://dappnode-exporter.dappnode:8080",
     "node_exporter": "http://dappnode-exporter.dappnode:9100"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dappnode/DAppNodePackage-exporter"
+  },
+  "bugs": {
+    "url": "https://github.com/dappnode/DAppNodePackage-exporter/issues"
   },
   "license": "GLP-3.0"
 }
