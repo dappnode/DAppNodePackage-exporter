@@ -1,6 +1,6 @@
 {
   "name": "dappnode-exporter.dnp.dappnode.eth",
-  "version": "0.1.1",
+  "version": "1.0.2",
   "description": "Package responsible of get metrics from the system to be able to check its healthy, based on the tools cadvisor and node_exporter.",
   "shortDescription": "DAppNode prometheus exporter",
   "type": "service",
