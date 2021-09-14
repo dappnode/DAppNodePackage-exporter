@@ -2,7 +2,7 @@
 # 1. node_exporter
 # 2. cadvisor
 
-# It is used cadvisor to execute 2 programs (cadvisor and node_exporter) at the same time
+# It is used supervisor to execute 2 programs (cadvisor and node_exporter) at the same time
 # Docs: http://supervisord.org/
 
 # IMPORTANT! node_exporter cannot be installed on the alpine version
