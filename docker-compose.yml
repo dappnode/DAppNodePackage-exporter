@@ -1,14 +1,17 @@
 version: "3.4"
 services:
   dappnode-exporter.dnp.dappnode.eth:
-    build: ./build
-    image: "dappnode-exporter.dnp.dappnode.eth:0.1.1"
+    build: 
+      context: build
+      args:
+        UPSTREAM_VERSION: v0.40.0
+    image: "dappnode-exporter.dnp.dappnode.eth:1.0.1"
     restart: always
     volumes:
       - "/:/rootfs:ro"
       - "/sys:/sys:ro"
       - "/sys:/host/sys:ro"
-      - "/cgroup:/cgroup:ro"
+      - "/dev/disk/:/dev/disk:ro"
       - "/proc:/host/proc:ro"
       - "/var/run:/var/run:rw"
       - "/var/lib/docker:/var/lib/docker:ro"
