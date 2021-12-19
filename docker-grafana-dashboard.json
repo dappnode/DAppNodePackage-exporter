@@ -976,10 +976,10 @@
         "steppedLine": false,
         "targets": [
           {
-            "expr": "sum by (container_label_com_docker_compose_service) (rate(container_cpu_usage_seconds_total{image!=\"\",container_label_org_label_schema_group=\"\",name=~\"$PackageType\", container_label_com_docker_compose_service=~\"$PackageName\"}[1m])) / scalar(count(node_cpu_seconds_total{mode=\"user\"})) * 100",
+            "expr": "label_replace(sum by (name) (rate(container_cpu_usage_seconds_total{image!=\"\",container_label_org_label_schema_group=\"\",name=~\"$PackageType\", container_label_com_docker_compose_service=~\"$PackageName\"}[1m])) / scalar(count(node_cpu_seconds_total{mode=\"user\"})) * 100,\"hname\",\"$2\",\"name\",\"(DAppNodePackage|DAppNodeCore).(.*).(dnp|public).dappnode.eth\")",
             "interval": "",
             "intervalFactor": 10,
-            "legendFormat": "{{ container_label_com_docker_compose_service }}",
+            "legendFormat": "{{ hname }}",
             "metric": "container_cpu_user_seconds_total",
             "refId": "A",
             "step": 10
@@ -1087,10 +1087,10 @@
         "steppedLine": false,
         "targets": [
           {
-            "expr": " sum by (container_label_com_docker_compose_service)(container_memory_usage_bytes{image!=\"\",container_label_org_label_schema_group=\"\",name=~\"$PackageType.*\", container_label_com_docker_compose_service=~\"$PackageName\"}-container_memory_cache{image!=\"\",container_label_org_label_schema_group=\"\",name=~\"$PackageType.*\", container_label_com_docker_compose_service=~\"$PackageName\"})",
+            "expr": "label_replace(sum by (name) (container_memory_usage_bytes{image!=\"\",container_label_org_label_schema_group=\"\",name=~\"$PackageType\", container_label_com_docker_compose_service=~\"$PackageName\"}-container_memory_cache{image!=\"\",container_label_org_label_schema_group=\"\",name=~\"$PackageType\", container_label_com_docker_compose_service=~\"$PackageName\"}),\"hname\",\"$2\",\"name\",\"(DAppNodePackage|DAppNodeCore).(.*).(dnp|public).dappnode.eth\")",
             "interval": "",
             "intervalFactor": 1,
-            "legendFormat": "{{ container_label_com_docker_compose_service }}",
+            "legendFormat": "{{ hname }}",
             "metric": "container_memory_usage",
             "refId": "A",
             "step": 1
@@ -1198,10 +1198,10 @@
         "steppedLine": false,
         "targets": [
           {
-            "expr": "sum by (container_label_com_docker_compose_service) (container_memory_cache{image!=\"\",container_label_org_label_schema_group=\"\",name=~\"$PackageType.*\", container_label_com_docker_compose_service=~\"$PackageName\"})",
+            "expr": "label_replace(sum by (name) (container_memory_cache{image!=\"\",container_label_org_label_schema_group=\"\",name=~\"$PackageType\", container_label_com_docker_compose_service=~\"$PackageName\"}),\"hname\",\"$2\",\"name\",\"(DAppNodePackage|DAppNodeCore).(.*).(dnp|public).dappnode.eth\")",
             "interval": "",
             "intervalFactor": 2,
-            "legendFormat": "{{container_label_com_docker_compose_service}}",
+            "legendFormat": "{{hname}}",
             "metric": "container_memory_cache",
             "refId": "A",
             "step": 2
@@ -1309,10 +1309,10 @@
         "steppedLine": false,
         "targets": [
           {
-            "expr": "sum by (container_label_com_docker_compose_service) (rate(container_network_receive_bytes_total{image!=\"\",container_label_org_label_schema_group=\"\",name=~\"$PackageType.*\", container_label_com_docker_compose_service=~\"$PackageName\"}[1m]))",
+            "expr": "label_replace(sum by (name) (rate(container_network_receive_bytes_total{image!=\"\",container_label_org_label_schema_group=\"\",name=~\"$PackageType\", container_label_com_docker_compose_service=~\"$PackageName\"}[1m])),\"hname\",\"$2\",\"name\",\"(DAppNodePackage|DAppNodeCore).(.*).(dnp|public).dappnode.eth\")",
             "interval": "",
             "intervalFactor": 10,
-            "legendFormat": "{{ container_label_com_docker_compose_service }}",
+            "legendFormat": "{{ hname }}",
             "metric": "container_network_receive_bytes_total",
             "refId": "A",
             "step": 10
@@ -1415,10 +1415,10 @@
         "steppedLine": false,
         "targets": [
           {
-            "expr": "sum by (container_label_com_docker_compose_service) (rate(container_network_transmit_bytes_total{image!=\"\",container_label_org_label_schema_group=\"\",name=~\"$PackageType.*\", container_label_com_docker_compose_service=~\"$PackageName\"}[1m]))",
+            "expr": "label_replace(sum by (name) (rate(container_network_transmit_bytes_total{image!=\"\",container_label_org_label_schema_group=\"\",name=~\"$PackageType\", container_label_com_docker_compose_service=~\"$PackageName\"}[1m])),\"hname\",\"$2\",\"name\",\"(DAppNodePackage|DAppNodeCore).(.*).(dnp|public).dappnode.eth\")",
             "interval": "",
             "intervalFactor": 10,
-            "legendFormat": "{{ container_label_com_docker_compose_service }}",
+            "legendFormat": "{{ hname }}",
             "metric": "container_network_transmit_bytes_total",
             "refId": "A",
             "step": 10
