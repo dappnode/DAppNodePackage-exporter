@@ -1,21 +1,31 @@
-FROM gcr.io/google-containers/cadvisor:v0.36.0 as cadvisor
+# This Dockerfile needs 2 binaries:
+# 1. node_exporter
+# 2. cadvisor
 
-FROM alpine:edge
+# It is used supervisor to execute 2 programs (cadvisor and node_exporter) at the same time
+# Docs: http://supervisord.org/
 
-RUN apk --no-cache add libc6-compat device-mapper findutils zfs && \
-    apk --no-cache add thin-provisioning-tools --repository http://dl-3.alpinelinux.org/alpine/edge/main/ && \
-    echo 'hosts: files mdns4_minimal [NOTFOUND=return] dns mdns4' >> /etc/nsswitch.conf && \
-    rm -rf /var/cache/apk/*
+# IMPORTANT! node_exporter cannot be installed on the alpine version
+# used in the cadvisor image, whereas it can be installed on the latest
+# Alpine version
 
-COPY --from=cadvisor /usr/bin/cadvisor /usr/bin/cadvisor
+ARG UPSTREAM_VERSION
 
-RUN apk add --no-cache -X http://dl-cdn.alpinelinux.org/alpine/edge/testing \
-	prometheus-node-exporter
+#################
+## 1. Exporter ##
+#################
+FROM alpine as exporter
+RUN apk --no-cache update && \
+    apk --no-cache add prometheus-node-exporter
+
+#################
+## 2. Cadvisor ##
+#################
+FROM gcr.io/cadvisor/cadvisor:$UPSTREAM_VERSION
+
+COPY --from=exporter /usr/bin/node_exporter /usr/bin/node_exporter
 
 RUN apk add supervisor
-
 COPY supervisord.conf /etc/supervisord/supervisord.conf
-
-RUN rm /bin/*
 
 ENTRYPOINT ["supervisord","-c","/etc/supervisord/supervisord.conf"]
