@@ -1,8 +1,8 @@
 version: "3.4"
 services:
   dappnode-exporter.dnp.dappnode.eth:
-    build: 
-      context: build
+    build:
+      context: src
       args:
         UPSTREAM_VERSION: v0.40.0
     image: "dappnode-exporter.dnp.dappnode.eth:1.0.1"
