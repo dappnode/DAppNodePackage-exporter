@@ -8,7 +8,6 @@ services:
     image: "dappnode-exporter.dnp.dappnode.eth:1.0.1"
     restart: always
     volumes:
-      - "/:/rootfs:ro"
       - "/sys:/sys:ro"
       - "/sys:/host/sys:ro"
       - "/dev/disk/:/dev/disk:ro"
