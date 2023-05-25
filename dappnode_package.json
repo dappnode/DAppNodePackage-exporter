@@ -1,9 +1,6 @@
 {
   "name": "dappnode-exporter.dnp.dappnode.eth",
   "version": "1.0.1",
-  "upstreamVersion": "v0.40.0",
-  "upstreamRepo": "google/cadvisor",
-  "upstreamArg": "UPSTREAM_VERSION",
   "description": "Package responsible of get metrics from the system to be able to check its healthy, based on the tools cadvisor and node_exporter.",
   "shortDescription": "DAppNode prometheus exporter",
   "type": "service",
@@ -15,8 +12,8 @@
   ],
   "categories": ["Monitoring"],
   "links": {
-    "cadvisor": "http://dappnode-exporter.dappnode:8080",
-    "node_exporter": "http://dappnode-exporter.dappnode:9100"
+    "cadvisor": "http://cadvisor.dappnode-exporter.dappnode:8080",
+    "node_exporter": "http://node-exporter.dappnode-exporter.dappnode:9100"
   },
   "repository": {
     "type": "git",
