@@ -14,7 +14,7 @@ services:
     build:
       context: cadvisor
       args:
-        CADVISOR_UPSTREAM_VERSION: v0.47.1
+        UPSTREAM_VERSION: v0.47.1
     restart: always
     volumes:
       - "/:/rootfs:ro"
