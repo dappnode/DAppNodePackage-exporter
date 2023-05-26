@@ -17,6 +17,7 @@ services:
         CADVISOR_UPSTREAM_VERSION: v0.47.1
     restart: always
     volumes:
+      - "/:/rootfs:ro"
       - "/var/run:/var/run:rw"
       - "/sys:/sys:ro"
       - "/var/lib/docker/:/var/lib/docker:ro"
