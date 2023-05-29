@@ -9,7 +9,7 @@ services:
     volumes:
       - "/proc:/host/proc:ro"
       - "/sys:/host/sys:ro"
-    image: "node-exporter.dappnode-exporter.dnp.dappnode.eth:1.0.1"
+    image: "node-exporter.dappnode-exporter.dnp.dappnode.eth:0.1.2"
   cadvisor:
     build:
       context: cadvisor
@@ -21,4 +21,12 @@ services:
       - "/var/run:/var/run:rw"
       - "/sys:/sys:ro"
       - "/var/lib/docker/:/var/lib/docker:ro"
-    image: "cadvisor.dappnode-exporter.dnp.dappnode.eth:1.0.1"
+    image: "cadvisor.dappnode-exporter.dnp.dappnode.eth:0.1.2"
+  ethical-metrics:
+    build:
+      context: ethical-metrics
+      dockerfile: Dockerfile
+    restart: always
+    ports:
+      - "3002:3002"
+    image: "ethical-metrics.dappnode-exporter.dnp.dappnode.eth:0.1.2"
