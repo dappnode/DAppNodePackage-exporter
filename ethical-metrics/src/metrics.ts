@@ -1,38 +1,65 @@
-import { loadStakerConfig } from "./stakerConfig.js";
+import { convertEnvsToURL } from "./stakerConfig.js";
 import promClient from "prom-client";
 import axios from "axios";
 import express from "express";
 
 const register = new promClient.Registry();
-const { network, executionClientUrl, beaconchainUrl } = loadStakerConfig();
+const urls = convertEnvsToURL()
+
+// Function to make the axios call
+async function jsonRPCapiCall(APImethod: string, params?: string[]) {
+  const data = JSON.stringify({
+    jsonrpc: "2.0",
+    method: APImethod,
+    params: params,
+    id: 0,
+  });
+
+  const executionClientUrls = {
+    mainnet: urls.executionClientMainnetUrl,
+    prater: urls.executionClientPraterUrl,
+    gnosis: urls.executionClientGnosisUrl,
+  };
+
+  const networks = ["mainnet", "prater", "gnosis"];
+
+  const responses = await Promise.all(
+    networks.map(async (network) => {
+      const executionClientUrl = executionClientUrls[network as keyof typeof executionClientUrls];
+      console.log("executionClientUrl", executionClientUrl);
+
+      const config = {
+        method: "post",
+        url: executionClientUrl,
+        headers: {
+          "Content-Type": "application/json",
+        },
+        data: data,
+      };
+
+      try {
+        const response = await axios(config);
+        return { network, response: response.data.result };
+      } catch (error) {
+        return null; // Ignore the error and exclude it from the responses, so that the metric is not set
+      }
+    })
+  );
+
+  return responses;
+}
 
 const ethSyncingMetric = new promClient.Gauge({
   name: "eth_syncing_result",
   help: "Eth syncing result",
-  labelNames: ["is_syncing"],
+  labelNames: ["network"],
   async collect() {
-    const data = JSON.stringify({
-      jsonrpc: "2.0",
-      method: "eth_syncing",
-      params: [],
-      id: 0,
-    });
-    console.log(executionClientUrl);
-    const config = {
-      method: "post",
-      url: "http://localhost:8545",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      data: data,
-    };
-
-    const response = await axios(config);
-
-    if (response.data.result === false) {
-      ethSyncingMetric.set({ is_syncing: response.data.result }, 0);
-    } else {
-      ethSyncingMetric.set({ is_syncing: response.data.result }, 1);
+    const responses = await jsonRPCapiCall("eth_syncing");
+    for (const response of responses) {
+      if (response != null) {
+        const isSyncing = response.response !== false ? 1 : 0;
+        this.set({ network: response.network }, isSyncing);
+      }
     }
   },
 });
@@ -43,11 +70,11 @@ const app = express();
 
 app.get("/metrics", async (req, res) => {
   try {
-    await register.metrics();
     res.set("Content-Type", register.contentType);
     res.end(await register.metrics());
+    console.log("Metrics served"); //TODO: prettier logging
   } catch (error) {
-    console.error("Error collecting metrics:", error);
+    console.error("Error collecting metrics:", error); //TODO: better error handling
     res.status(500).end();
   }
 });

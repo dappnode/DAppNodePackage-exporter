@@ -1,6 +1,6 @@
 {
   "name": "dappnode-exporter.dnp.dappnode.eth",
-  "version": "1.0.1",
+  "version": "0.1.2",
   "upstreamVersion": "v0.40.0",
   "upstreamRepo": "google/cadvisor",
   "upstreamArg": "UPSTREAM_VERSION",
@@ -25,5 +25,11 @@
   "bugs": {
     "url": "https://github.com/dappnode/DAppNodePackage-exporter/issues"
   },
+  "globalEnvs": [
+    {
+      "envs": ["EXECUTION_CLIENT_PRATER", "CONSENSUS_CLIENT_PRATER", "EXECUTION_CLIENT_MAINNET", "CONSENSUS_CLIENT_MAINNET", "EXECUTION_CLIENT_GNOSIS", "CONSENSUS_CLIENT_GNOSIS"],
+      "services": ["ethical-metrics"]
+    }
+  ],
   "license": "GPL-3.0"
 }

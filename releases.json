@@ -13,5 +13,11 @@
       "dappnode": "Thu, 12 Nov 2020 11:56:04 GMT"
     },
     "link": "http://my.dappnode/#/sdk/publish/r=dappnode-exporter.dnp.dappnode.eth&v=0.1.1&h=%2Fipfs%2FQmPWQ7CMsK5um8wwUE7i21zju6URB1Y2e6zBNWdtAZTwNX"
+  },
+  "0.1.2": {
+    "hash": "/ipfs/QmaXG2eZNS5jeHfoFwrJDZjb8CqJPQywdEwga5VS17uff6",
+    "uploadedTo": {
+      "remote": "Mon, 29 May 2023 18:48:16 GMT"
+    }
   }
 }
