@@ -22,11 +22,11 @@ services:
       - "/sys:/sys:ro"
       - "/var/lib/docker/:/var/lib/docker:ro"
     image: "cadvisor.dappnode-exporter.dnp.dappnode.eth:0.1.2"
-  ethical-metrics:
+  client-metrics:
     build:
-      context: ethical-metrics
+      context: client-metrics
       dockerfile: Dockerfile
     restart: always
     ports:
       - "3002:3002"
-    image: "ethical-metrics.dappnode-exporter.dnp.dappnode.eth:0.1.2"
+    image: "client-metrics.dappnode-exporter.dnp.dappnode.eth:0.1.2"
