@@ -10,5 +10,11 @@
       "job": "cadvisor"
     },
     "targets": ["cadvisor.dappnode-exporter.dappnode:8080"]
+  },
+  {
+    "labels": {
+      "job": "client-metrics"
+    },
+    "targets": ["client-metrics.dappnode-exporter.dappnode:3002"]
   }
 ]
