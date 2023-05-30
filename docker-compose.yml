@@ -1,16 +1,24 @@
 version: "3.4"
 services:
-  dappnode-exporter.dnp.dappnode.eth:
+  node-exporter:
     build:
-      context: src
+      context: node_exporter
       args:
-        UPSTREAM_VERSION: v0.40.0
-    image: "dappnode-exporter.dnp.dappnode.eth:1.0.1"
+        NODE_EXPORTER_UPSTREAM_VERSION: v1.5.0
     restart: always
     volumes:
-      - "/sys:/sys:ro"
-      - "/sys:/host/sys:ro"
-      - "/dev/disk/:/dev/disk:ro"
       - "/proc:/host/proc:ro"
+      - "/sys:/host/sys:ro"
+    image: "node-exporter.dappnode-exporter.dnp.dappnode.eth:1.0.1"
+  cadvisor:
+    build:
+      context: cadvisor
+      args:
+        UPSTREAM_VERSION: v0.47.1
+    restart: always
+    volumes:
+      - "/:/rootfs:ro"
       - "/var/run:/var/run:rw"
-      - "/var/lib/docker:/var/lib/docker:ro"
+      - "/sys:/sys:ro"
+      - "/var/lib/docker/:/var/lib/docker:ro"
+    image: "cadvisor.dappnode-exporter.dnp.dappnode.eth:1.0.1"

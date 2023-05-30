@@ -3,12 +3,12 @@
     "labels": {
       "job": "nodeexporter"
     },
-    "targets": ["dappnode-exporter.dappnode:9100"]
+    "targets": ["node-exporter.dappnode-exporter.dappnode:9100"]
   },
   {
     "labels": {
       "job": "cadvisor"
     },
-    "targets": ["dappnode-exporter.dappnode:8080"]
+    "targets": ["cadvisor.dappnode-exporter.dappnode:8080"]
   }
 ]

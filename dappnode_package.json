@@ -15,8 +15,8 @@
   ],
   "categories": ["Monitoring"],
   "links": {
-    "cadvisor": "http://dappnode-exporter.dappnode:8080",
-    "node_exporter": "http://dappnode-exporter.dappnode:9100"
+    "cadvisor": "http://cadvisor.dappnode-exporter.dappnode:8080",
+    "node_exporter": "http://node-exporter.dappnode-exporter.dappnode:9100"
   },
   "repository": {
     "type": "git",
