@@ -15,6 +15,6 @@
     "labels": {
       "job": "clientmetrics"
     },
-    "targets": ["client-metrics.dappnode-exporter.dappnode:3002"]
+    "targets": ["client-metrics.dappnode-exporter.dappnode:9090"]
   }
 ]

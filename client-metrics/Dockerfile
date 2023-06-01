@@ -7,7 +7,7 @@ WORKDIR /app
 COPY package.json yarn.lock* tsconfig.json ./
 
 # Install dependencies using yarn
-RUN yarn install
+RUN yarn install --production
 
 # Copy the source code to the container
 COPY ./src ./src
@@ -15,7 +15,7 @@ COPY ./src ./src
 # Build the TypeScript code
 RUN yarn build
 
-EXPOSE 3002
+EXPOSE 9090
 
 # Start the Express server
 CMD ["node", "./dist/index.js"]

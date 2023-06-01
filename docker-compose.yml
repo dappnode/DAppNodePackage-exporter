@@ -27,6 +27,4 @@ services:
       context: client-metrics
       dockerfile: Dockerfile
     restart: always
-    ports:
-      - "3002:3002"
     image: "client-metrics.dappnode-exporter.dnp.dappnode.eth:0.1.2"

@@ -8,7 +8,16 @@ import {
 
 } from "@dappnode/types";
 
-export function convertEnvsToURL() {
+//TODO: replace this method to @dappnode/types
+export function convertEnvsToURL(): {
+  executionClientMainnetUrl: string | undefined,
+  executionClientPraterUrl: string | undefined,
+  executionClientGnosisUrl: string | undefined,
+  consensusClientMainnetUrl: string | undefined,
+  consensusClientPraterUrl: string | undefined,
+  consensusClientGnosisUrl: string | undefined
+}
+{
   const executionClientMainnet = process.env._DAPPNODE_GLOBAL_EXECUTION_CLIENT_MAINNET as ExecutionClientMainnet;
   const ConsensusClientMainnet = process.env._DAPPNODE_GLOBAL_CONSENSUS_CLIENT_MAINNET as ConsensusClientMainnet;
   const executionClientPrater = process.env._DAPPNODE_GLOBAL_EXECUTION_CLIENT_PRATER as ExecutionClientPrater;
@@ -16,12 +25,12 @@ export function convertEnvsToURL() {
   const executionClientGnosis = process.env._DAPPNODE_GLOBAL_EXECUTION_CLIENT_GNOSIS as ExecutionClientGnosis;
   const ConsensusClientGnosis = process.env._DAPPNODE_GLOBAL_CONSENSUS_CLIENT_GNOSIS as ConsensusClientGnosis;
 
-  let executionClientMainnetUrl: string,
-    executionClientPraterUrl: string,
-    executionClientGnosisUrl: string,
-    consensusClientMainnetUrl: string,
-    consensusClientPraterUrl: string,
-    consensusClientGnosisUrl: string;
+  let executionClientMainnetUrl: string | undefined,
+    executionClientPraterUrl: string | undefined,
+    executionClientGnosisUrl: string | undefined,
+    consensusClientMainnetUrl: string | undefined,
+    consensusClientPraterUrl: string | undefined,
+    consensusClientGnosisUrl: string | undefined;
 
   switch(executionClientMainnet) {
     case "geth.dnp.dappnode.eth":
