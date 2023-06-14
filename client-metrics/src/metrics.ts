@@ -1,7 +1,7 @@
 import { networks } from "@dappnode/types";
 import promClient from "prom-client";
 import express, { Request, Response } from "express";
-import { getClientUrl, jsonRPCapiCall } from "./utils";
+import { getClientUrl, jsonRPCapiCallExecution, jsonRPCapiCallConsensus } from "./utils.js";
 
 // Create a Registry which holds the metrics
 const register = new promClient.Registry();
@@ -31,8 +31,14 @@ async function collectSyncingMetric(network: string, type: "execution" | "consen
     return;
   }
 
-  const apiMethod = type === "execution" ? "eth_syncing" : "eth/v1/node/syncing";
-  const response = await jsonRPCapiCall(clientUrl, apiMethod, network);
+  var response = null
+  if (type === "execution") {
+    const apiMethod = "eth_syncing";
+    response = await jsonRPCapiCallExecution(clientUrl, apiMethod);
+  } else {
+    const apiMethod = "/eth/v1/node/syncing";
+    response = await jsonRPCapiCallConsensus(clientUrl, apiMethod);
+  }
 
   if (response != null) {
     const isSyncing = response.response !== false ? 1 : 0;

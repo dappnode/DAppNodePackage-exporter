@@ -17,6 +17,9 @@
     "strictNullChecks": true,
     "noImplicitReturns": true,
   },
+  "include": [
+    "src/*.ts", // Include all TypeScript files in the "src" directory
+  ],
   "exclude": ["node_modules"],
   "ts-node": {
     "esm": true,
