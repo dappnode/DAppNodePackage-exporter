@@ -1,27 +1,29 @@
-import { convertEnvsToURL } from "./stakerConfig.js";
+import { getUrlFromDnpName } from "@dappnode/types";
+import { networks } from "@dappnode/types";
 import axios from "axios";
 
-// TODO: this should be imported from @dappnode/types
-const urls = convertEnvsToURL();
+const urls = getUrlFromDnpName();
 
-// gets the client URL for a given network and type (execution or consensus)
-export function getClientUrl(network: string, type: "execution" | "consensus"): string | undefined {
-    const clientUrls = {
-        mainnet: {
-            execution: urls.executionClientMainnetUrl ?? undefined,
-            consensus: urls.consensusClientMainnetUrl ?? undefined,
-        },
-        prater: {
-            execution: urls.executionClientPraterUrl ?? undefined,
-            consensus: urls.consensusClientPraterUrl ?? undefined,
-        },
-        gnosis: {
-            execution: urls.executionClientGnosisUrl ?? undefined,
-            consensus: urls.consensusClientGnosisUrl ?? undefined,
-        },
-    };
+// Define the URL mappings for execution and consensus clients
+const urlsMap = {
+    execution: {
+        mainnet: urls.executionClientMainnetUrl,
+        prater: urls.executionClientPraterUrl,
+        gnosis: urls.executionClientGnosisUrl,
+        lukso: urls.executionClientLuksoUrl,
+    },
+    consensus: {
+        mainnet: urls.consensusClientMainnetUrl,
+        prater: urls.consensusClientPraterUrl,
+        gnosis: urls.consensusClientGnosisUrl,
+        lukso: urls.consensusClientLuksoUrl,
+    },
+};
 
-    return clientUrls[network as keyof typeof clientUrls][type];
+// Gets the client URL for a given network and type (execution or consensus)
+export function getClientUrl(network: typeof networks[number], type: "execution" | "consensus"): string | undefined {
+    const clientUrl = urlsMap[type][network];
+    return clientUrl !== undefined ? clientUrl : undefined;
 }
 
 export async function jsonRPCapiCallExecution(url: string, APImethod: string, params?: string[]): Promise<{ response: any } | null> {
@@ -57,7 +59,7 @@ export async function jsonRPCapiCallConsensus(baseURL: string, endpoint: string)
         const url = `${baseURL}${endpoint}`;
 
         console.log("Calling ", url);
-        const response = await axios.get(url)
+        const response = await axios.get(url);
         //TODO: reponse parse in another method, it wont always be in "is_syncing"
         return { response: response.data.is_syncing };
     } catch (error) {

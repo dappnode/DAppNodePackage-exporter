@@ -24,14 +24,14 @@ const consensusSyncingMetric = new promClient.Gauge({
   },
 });
 
-async function collectSyncingMetric(network: string, type: "execution" | "consensus") {
+async function collectSyncingMetric(network: typeof networks[number], type: "execution" | "consensus") {
   const clientUrl = getClientUrl(network, type);
   if (!clientUrl) {
     console.warn(`${type} ClientUrl of network ${network} is null or undefined, skipping JSON-RPC call`);
     return;
   }
 
-  var response = null
+  let response = null;
   if (type === "execution") {
     const apiMethod = "eth_syncing";
     response = await jsonRPCapiCallExecution(clientUrl, apiMethod);

@@ -1,4 +1,5 @@
-FROM node:18-alpine
+# Stage 1: Build stage
+FROM node:18-alpine as builder
 
 # Set the working directory inside the container
 WORKDIR /app
@@ -15,6 +16,18 @@ COPY ./src ./src
 # Build the TypeScript code
 RUN yarn build
 
+# Stage 2: Production stage
+FROM node:18-alpine
+
+# Set the working directory inside the container
+WORKDIR /app
+
+# Copy only the necessary files from the builder stage
+COPY --from=builder /app/dist ./dist
+COPY --from=builder /app/node_modules ./node_modules
+COPY --from=builder /app/package.json ./
+
+# Expose the port
 EXPOSE 9090
 
 # Start the Express server

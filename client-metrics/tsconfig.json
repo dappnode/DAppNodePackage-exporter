@@ -1,11 +1,13 @@
 {
   "compilerOptions": {
     /* Language and Environment */
-    "target": "es2019" /* Set the JavaScript language version for emitted JavaScript and include compatible library declarations. */,
+    "target": "ES2022" /* Set the JavaScript language version for emitted JavaScript and include compatible library declarations. */,
 
     /* Modules */
-    "module": "esnext",
+    "module": "ESNext",
+    "resolveJsonModule": true,
     "moduleResolution": "node",
+    "declaration": true,
     "outDir": "dist",
     "esModuleInterop": true /* Emit additional JavaScript to ease support for importing CommonJS modules. This enables 'allowSyntheticDefaultImports' for type compatibility. */,
     "forceConsistentCasingInFileNames": true /* Ensure that casing is correct in imports. */,
@@ -16,14 +18,11 @@
     "noImplicitAny": true,
     "strictNullChecks": true,
     "noImplicitReturns": true,
+    "sourceMap": true
+
   },
   "include": [
     "src/*.ts", // Include all TypeScript files in the "src" directory
   ],
-  "exclude": ["node_modules"],
-  "ts-node": {
-    "esm": true,
-    "experimentalSpecifierResolution": "node",
-    "experimentalResolver": true
-  }
+  "exclude": ["node_modules"]
 }
