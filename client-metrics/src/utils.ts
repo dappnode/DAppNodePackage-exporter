@@ -26,7 +26,12 @@ export function getClientUrl(network: typeof networks[number], type: "execution"
     return clientUrl !== undefined ? clientUrl : undefined;
 }
 
-export async function jsonRPCapiCallExecution(url: string, APImethod: string, params?: string[]): Promise<{ response: any } | null> {
+export async function jsonRPCapiCallExecution(
+    url: string,
+    APImethod: string,
+    responseParser: (data: any) => any,
+    params?: string[]
+): Promise<{ response: any } | null> {
     const data = JSON.stringify({
         jsonrpc: "2.0",
         method: APImethod,
@@ -46,24 +51,52 @@ export async function jsonRPCapiCallExecution(url: string, APImethod: string, pa
     try {
         console.log("Calling ", url);
         const response = await axios(config);
-        //TODO: reponse parse in another method, it wont always be in "result"
-        return { response: response.data.result };
+        return { response: responseParser(response.data) }; // Use the response parser callback
     } catch (error) {
         console.error((error as Error).message);
         return null;
     }
 }
 
-export async function jsonRPCapiCallConsensus(baseURL: string, endpoint: string): Promise<{ response: any } | null> {
+export async function jsonRPCapiCallConsensus(
+    baseURL: string,
+    endpoint: string,
+    responseParser: (data: any) => any // Response parser callback
+): Promise<{ response: any } | null> {
     try {
         const url = `${baseURL}${endpoint}`;
 
         console.log("Calling ", url);
         const response = await axios.get(url);
-        //TODO: reponse parse in another method, it wont always be in "is_syncing"
-        return { response: response.data.is_syncing };
+        return { response: responseParser(response.data) }; // Use the response parser callback
     } catch (error) {
         console.error((error as Error).message);
         return null;
     }
 }
+
+// Response parser for execution API call
+export function executionSyncingParser(data: any): any {
+    // Expecting response in the form of { "result": true/false }
+    return data.result;
+}
+
+// Response parser for consensus API call
+export function consensusSyncingParser(data: any): any {
+    // Expecting response in the form of { "data": { "is_syncing": true/false } }
+    return data.data.is_syncing;
+}
+
+// Response parser for execution API call
+export function executionPeerParser(data: any): any {
+    // Expecting response in the form of { "result": "0x2" }
+    // Convert the hexadecimal result to an integer
+    return parseInt(data.result, 16);
+  }
+  
+  // Response parser for consensus API call
+export function consensusPeerParser(data: any): any {
+    // Expecting response in the form of { "data": { "connected": "56" } }
+    // Parsing the "connected" field and converting it to an integer
+    return parseInt(data.data.connected, 10);
+  }
