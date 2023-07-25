@@ -20,7 +20,7 @@
     "typescript": "^5.0.4"
   },
   "dependencies": {
-    "@dappnode/types": "^0.1.18",
+    "@dappnode/types": "^0.1.23",
     "@types/node": "^20.2.4",
     "@types/express": "^4.17.17",
     "ts-node": "^10.9.1",
