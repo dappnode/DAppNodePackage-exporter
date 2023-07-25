@@ -22,4 +22,3 @@ services:
       - "/sys:/sys:ro"
       - "/var/lib/docker/:/var/lib/docker:ro"
     image: "cadvisor.dappnode-exporter.dnp.dappnode.eth:1.0.1"
-    command: '--disable_metrics="percpu"'
