@@ -1,6 +1,6 @@
 {
   "name": "dappnode-exporter.dnp.dappnode.eth",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "upstreamVersion": "v0.40.0",
   "upstreamRepo": "google/cadvisor",
   "upstreamArg": "UPSTREAM_VERSION",
@@ -28,7 +28,7 @@
   "globalEnvs": [
     {
       "envs": ["EXECUTION_CLIENT_PRATER", "CONSENSUS_CLIENT_PRATER", "EXECUTION_CLIENT_MAINNET", "CONSENSUS_CLIENT_MAINNET", "EXECUTION_CLIENT_GNOSIS", "CONSENSUS_CLIENT_GNOSIS"],
-      "services": ["client-metrics"]
+      "services": ["stakers-metrics"]
     }
   ],
   "license": "GPL-3.0"

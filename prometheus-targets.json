@@ -13,8 +13,8 @@
   },
   {
     "labels": {
-      "job": "clientmetrics"
+      "job": "stakersmetrics"
     },
-    "targets": ["client-metrics.dappnode-exporter.dappnode:9090"]
+    "targets": ["stakers-metrics.dappnode-exporter.dappnode:9090"]
   }
 ]

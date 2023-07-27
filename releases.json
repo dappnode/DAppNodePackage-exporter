@@ -15,9 +15,15 @@
     "link": "http://my.dappnode/#/sdk/publish/r=dappnode-exporter.dnp.dappnode.eth&v=0.1.1&h=%2Fipfs%2FQmPWQ7CMsK5um8wwUE7i21zju6URB1Y2e6zBNWdtAZTwNX"
   },
   "0.1.2": {
-    "hash": "/ipfs/QmSdTySDR4dFQa5qZsLLd4d2PVV5181cRn693D9JZANZbV",
+    "hash": "/ipfs/QmZA5YeZdScdo9ZVwDy38mhqNoavcvDXB6JtbaCp9vMwbV",
     "uploadedTo": {
-      "remote": "Thu, 27 Jul 2023 17:05:00 GMT"
+      "remote": "Thu, 27 Jul 2023 18:47:16 GMT"
+    }
+  },
+  "0.1.3": {
+    "hash": "/ipfs/QmQXrqHRJgW1hd3bQbUtQ2mTWYrmVcarsQfZQMonVRd2M5",
+    "uploadedTo": {
+      "remote": "Thu, 27 Jul 2023 19:08:34 GMT"
     }
   }
 }
