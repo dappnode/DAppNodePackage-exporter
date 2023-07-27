@@ -1,8 +1,7 @@
 import { networks } from "@dappnode/types";
 import promClient from "prom-client";
-import express, { Request, Response } from "express";
 import { getClientUrl, jsonRPCapiCallExecution, jsonRPCapiCallConsensus, consensusSyncingParser, executionSyncingParser, executionPeerParser, consensusPeerParser } from "./utils.js";
-
+import logger from "./logger.js"; 
 // Create a Registry which holds the metrics
 const register = new promClient.Registry();
 
@@ -45,7 +44,7 @@ const executionPeerCountMetric = new promClient.Gauge({
 async function collectPeerCount(network: typeof networks[number], type: "execution" | "consensus") {
   const clientUrl = getClientUrl(network, type);
   if (!clientUrl) {
-    console.warn(`${type} ClientUrl of network ${network} is null or undefined, skipping JSON-RPC call`);
+    logger.warn(`${type} ClientUrl of network ${network} is null or undefined, skipping JSON-RPC call`);
     return;
   }
 
@@ -58,15 +57,17 @@ async function collectPeerCount(network: typeof networks[number], type: "executi
     response = await jsonRPCapiCallConsensus(clientUrl, apiMethod, consensusPeerParser);
   }
 
-  const peerCount = response != null ? response.response : NaN;
-  const metric = type === "execution" ? executionPeerCountMetric : consensusPeerCountMetric;
-  metric.set({ network: network }, peerCount);
+  const peerCount = response != null ? response.response : undefined;
+  if (peerCount !== undefined) {
+    const metric = type === "execution" ? executionPeerCountMetric : consensusPeerCountMetric;
+    metric.set({ network: network }, peerCount);
+  }
 }
 
 async function collectSyncingMetric(network: typeof networks[number], type: "execution" | "consensus") {
   const clientUrl = getClientUrl(network, type);
   if (!clientUrl) {
-    console.warn(`${type} ClientUrl of network ${network} is null or undefined, skipping JSON-RPC call`);
+    logger.warn(`${type} ClientUrl of network ${network} is null or undefined, skipping JSON-RPC call`);
     return;
   }
 
@@ -79,9 +80,11 @@ async function collectSyncingMetric(network: typeof networks[number], type: "exe
     response = await jsonRPCapiCallConsensus(clientUrl, apiMethod, consensusSyncingParser);
   }
 
-  const isSyncing = response != null ? (response.response !== false ? 1 : 0) : NaN;
-  const metric = type === "execution" ? executionSyncingMetric : consensusSyncingMetric;
-  metric.set({ network: network }, isSyncing);
+  const isSyncing = response != null ? (response.response !== false ? 1 : 0) : undefined;
+  if (isSyncing !== undefined) {
+    const metric = type === "execution" ? executionSyncingMetric : consensusSyncingMetric;
+    metric.set({ network: network }, isSyncing);
+  }
 }
 
 register.registerMetric(consensusPeerCountMetric);
@@ -89,17 +92,4 @@ register.registerMetric(executionPeerCountMetric);
 register.registerMetric(executionSyncingMetric);
 register.registerMetric(consensusSyncingMetric);
 
-const app = express();
-
-app.get("/metrics", async (req: Request, res: Response) => {
-  try {
-    res.set("Content-Type", register.contentType);
-    res.end(await register.metrics());
-    console.log("Metrics served");
-  } catch (error) {
-    console.error("Error collecting metrics:", error);
-    res.status(500).end();
-  }
-});
-
-export { app };
+export { register };

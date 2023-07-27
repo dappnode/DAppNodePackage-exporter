@@ -1,6 +1,7 @@
 import { getUrlFromDnpName } from "@dappnode/types";
 import { networks } from "@dappnode/types";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
+import logger from "./logger.js"; 
 
 const urls = getUrlFromDnpName();
 
@@ -31,49 +32,39 @@ export async function jsonRPCapiCallExecution(
     APImethod: string,
     responseParser: (data: any) => any,
     params?: string[]
-): Promise<{ response: any } | null> {
-    const data = JSON.stringify({
+  ): Promise<{ response: any } | null> {
+    try {
+      logger.info(`Calling ${url}`);
+      const response = await axios.post(url, {
         jsonrpc: "2.0",
         method: APImethod,
-        params: params,
+        params: params || [],
         id: 0,
-    });
-
-    const config = {
-        method: "post",
-        url: url,
-        headers: {
-            "Content-Type": "application/json",
-        },
-        data: data,
-    };
-
-    try {
-        console.log("Calling ", url);
-        const response = await axios(config);
-        return { response: responseParser(response.data) }; // Use the response parser callback
+      });
+      return { response: responseParser(response.data) };
     } catch (error) {
-        console.error((error as Error).message);
-        return null;
+      const axiosError = error as AxiosError;
+      logger.error(`Error calling ${url}: ${axiosError.message}`);
+      return null;
     }
-}
-
-export async function jsonRPCapiCallConsensus(
+  }
+  
+  export async function jsonRPCapiCallConsensus(
     baseURL: string,
     endpoint: string,
-    responseParser: (data: any) => any // Response parser callback
-): Promise<{ response: any } | null> {
+    responseParser: (data: any) => any
+  ): Promise<{ response: any } | null> {
+    const url = `${baseURL}${endpoint}`;
     try {
-        const url = `${baseURL}${endpoint}`;
-
-        console.log("Calling ", url);
-        const response = await axios.get(url);
-        return { response: responseParser(response.data) }; // Use the response parser callback
+      logger.info(`Calling ${url}`);
+      const response = await axios.get(url);
+      return { response: responseParser(response.data) };
     } catch (error) {
-        console.error((error as Error).message);
-        return null;
+      const axiosError = error as AxiosError;
+      logger.error(`Error calling ${url}: ${axiosError.message}`);
+      return null;
     }
-}
+  }
 
 // Response parser for execution API call
 export function executionSyncingParser(data: any): any {

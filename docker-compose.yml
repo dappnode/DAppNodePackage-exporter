@@ -28,3 +28,5 @@ services:
       dockerfile: Dockerfile
     restart: always
     image: "client-metrics.dappnode-exporter.dnp.dappnode.eth:0.1.2"
+    environment:
+      - DEBUG_MODE = false

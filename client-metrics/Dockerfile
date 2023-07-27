@@ -8,7 +8,7 @@ WORKDIR /app
 COPY package.json yarn.lock* tsconfig.json ./
 
 # Install dependencies using yarn
-RUN yarn install --production
+RUN yarn install --production=false    # Install all dependencies, including devDependencies, only for the build stage
 
 # Copy the source code to the container
 COPY ./src ./src
