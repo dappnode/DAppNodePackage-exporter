@@ -49,6 +49,7 @@ async function collectPeerCount(network: typeof networks[number], type: "executi
   }
 
   let response = null;
+  let peerCount = NaN; // Set to NaN to indicate an error or unknown state
   if (type === "execution") {
     const apiMethod = "net_peerCount";
     response = await jsonRPCapiCallExecution(clientUrl, apiMethod, executionPeerParser);
@@ -57,11 +58,13 @@ async function collectPeerCount(network: typeof networks[number], type: "executi
     response = await jsonRPCapiCallConsensus(clientUrl, apiMethod, consensusPeerParser);
   }
 
-  const peerCount = response != null ? response.response : undefined;
-  if (peerCount !== undefined) {
-    const metric = type === "execution" ? executionPeerCountMetric : consensusPeerCountMetric;
-    metric.set({ network: network }, peerCount);
+  // Check if there was no error in the API call
+  if (response !== null && response.response !== undefined) {
+    peerCount = response.response;
   }
+
+  const metric = type === "execution" ? executionPeerCountMetric : consensusPeerCountMetric;
+  metric.set({ network: network }, peerCount);
 }
 
 async function collectSyncingMetric(network: typeof networks[number], type: "execution" | "consensus") {
@@ -80,12 +83,19 @@ async function collectSyncingMetric(network: typeof networks[number], type: "exe
     response = await jsonRPCapiCallConsensus(clientUrl, apiMethod, consensusSyncingParser);
   }
 
-  const isSyncing = response != null ? (response.response !== false ? 1 : 0) : undefined;
-  if (isSyncing !== undefined) {
+  // Check if there was an error in the API call
+  if (response === null || response.response === undefined) {
     const metric = type === "execution" ? executionSyncingMetric : consensusSyncingMetric;
-    metric.set({ network: network }, isSyncing);
+    metric.set({ network: network }, NaN); // Set to NaN to indicate an error or unknown state
+    return;
   }
+
+  // Set the metric based on the response value (true = 1, false = 0)
+  const isSyncing = response.response ? 1 : 0;
+  const metric = type === "execution" ? executionSyncingMetric : consensusSyncingMetric;
+  metric.set({ network: network }, isSyncing);
 }
+
 
 register.registerMetric(consensusPeerCountMetric);
 register.registerMetric(executionPeerCountMetric);
