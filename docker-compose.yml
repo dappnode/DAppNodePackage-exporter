@@ -9,7 +9,7 @@ services:
     volumes:
       - "/proc:/host/proc:ro"
       - "/sys:/host/sys:ro"
-    image: "node-exporter.dappnode-exporter.dnp.dappnode.eth:1.0.2"
+    image: "node-exporter.dappnode-exporter.dnp.dappnode.eth:1.0.3"
   cadvisor:
     build:
       context: cadvisor
@@ -21,12 +21,12 @@ services:
       - "/var/run:/var/run:rw"
       - "/sys:/sys:ro"
       - "/var/lib/docker/:/var/lib/docker:ro"
-    image: "cadvisor.dappnode-exporter.dnp.dappnode.eth:1.0.2"
+    image: "cadvisor.dappnode-exporter.dnp.dappnode.eth:1.0.3"
   stakers-metrics:
     build:
       context: stakers-metrics
       dockerfile: Dockerfile
     restart: always
-    image: "stakers-metrics.dappnode-exporter.dnp.dappnode.eth:1.0.2"
+    image: "stakers-metrics.dappnode-exporter.dnp.dappnode.eth:1.0.3"
     environment:
       - DEBUG_MODE=false
