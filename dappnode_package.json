@@ -1,7 +1,7 @@
 {
   "name": "dappnode-exporter.dnp.dappnode.eth",
   "version": "1.0.3",
-  "upstreamVersion": "v0.40.0",
+  "upstreamVersion": "v0.47.1",
   "upstreamRepo": "google/cadvisor",
   "upstreamArg": "UPSTREAM_VERSION",
   "description": "Package responsible of get metrics from the system to be able to check its healthy, based on the tools cadvisor and node_exporter.",
