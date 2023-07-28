@@ -24,8 +24,10 @@ WORKDIR /app
 
 # Copy only the necessary files from the builder stage
 COPY --from=builder /app/dist ./dist
-COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/package.json ./
+
+# Install only production dependencies
+RUN yarn install --production=true 
 
 # Expose the port
 EXPOSE 9090
