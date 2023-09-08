@@ -10,5 +10,11 @@
       "job": "cadvisor"
     },
     "targets": ["cadvisor.dappnode-exporter.dappnode:8080"]
+  },
+  {
+    "labels": {
+      "job": "stakersmetrics"
+    },
+    "targets": ["stakers-metrics.dappnode-exporter.dappnode:9090"]
   }
 ]
