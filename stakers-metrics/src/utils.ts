@@ -34,7 +34,7 @@ export async function jsonRPCapiCallExecution(
     params?: string[]
   ): Promise<{ response: any } | null> {
     try {
-      logger.info(`Calling ${url}`);
+      logger.debug(`Calling ${url}`);
       const response = await axios.post(url, {
         jsonrpc: "2.0",
         method: APImethod,
@@ -44,7 +44,7 @@ export async function jsonRPCapiCallExecution(
       return { response: responseParser(response.data) };
     } catch (error) {
       const axiosError = error as AxiosError;
-      logger.error(`Error calling ${url}: ${axiosError.message}`);
+      logger.debug(`Error calling ${url}: ${axiosError.message}`);
       return null;
     }
   }
@@ -56,12 +56,12 @@ export async function jsonRPCapiCallExecution(
   ): Promise<{ response: any } | null> {
     const url = `${baseURL}${endpoint}`;
     try {
-      logger.info(`Calling ${url}`);
+      logger.debug(`Calling ${url}`);
       const response = await axios.get(url);
       return { response: responseParser(response.data) };
     } catch (error) {
       const axiosError = error as AxiosError;
-      logger.error(`Error calling ${url}: ${axiosError.message}`);
+      logger.debug(`Error calling ${url}: ${axiosError.message}`);
       return null;
     }
   }

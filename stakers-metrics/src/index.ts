@@ -11,10 +11,11 @@ app.listen(PORT, () => {
 
 app.get("/metrics", async (req: Request, res: Response) => {
   try {
+    logger.info("Request recieved, preparing metrics")
     res.set("Content-Type", register.contentType);
     const metrics = await register.metrics();
     res.end(metrics);
-    logger.info("Metrics served");
+    logger.info(`Metrics served`);
   } catch (error) {
     logger.error("Error collecting metrics:", error);
     res.status(500).end();
