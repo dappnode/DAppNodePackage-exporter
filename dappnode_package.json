@@ -4,7 +4,7 @@
   "upstreamVersion": "v0.47.1",
   "upstreamRepo": "google/cadvisor",
   "upstreamArg": "UPSTREAM_VERSION",
-  "description": "Package responsible of get metrics from the system to be able to check its healthy, based on the tools cadvisor and node_exporter.",
+  "description": "Package responsible for getting metrics from the system to be able to check its health, based on the tools cadvisor and node_exporter.",
   "shortDescription": "DAppNode prometheus exporter",
   "type": "service",
   "author": "DAppNode Association <admin@dappnode.io> (https://github.com/dappnode)",
