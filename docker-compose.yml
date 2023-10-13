@@ -4,11 +4,12 @@ services:
     build:
       context: node_exporter
       args:
-        NODE_EXPORTER_UPSTREAM_VERSION: v1.5.0
+        NODE_EXPORTER_UPSTREAM_VERSION: v1.6.1
     restart: always
     volumes:
-      - "/proc:/host/proc:ro"
-      - "/sys:/host/sys:ro"
+      - "/:/host:ro,rslave"
+    command:
+      - "--path.rootfs=/host"
     image: "node-exporter.dappnode-exporter.dnp.dappnode.eth:1.0.3"
   cadvisor:
     build:
