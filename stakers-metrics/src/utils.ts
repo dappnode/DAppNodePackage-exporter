@@ -1,30 +1,29 @@
-import { getUrlFromDnpName } from "@dappnode/types";
-import { networks } from "@dappnode/types";
+import { networks, getJsonRpcApiFromDnpName } from "@dappnode/types";
 import axios, { AxiosError } from "axios";
 import logger from "./logger.js"; 
 
-const urls = getUrlFromDnpName();
-
-// Define the URL mappings for execution and consensus clients
-const urlsMap = {
-    execution: {
-        mainnet: urls.executionClientMainnetUrl,
-        prater: urls.executionClientPraterUrl,
-        gnosis: urls.executionClientGnosisUrl,
-        lukso: urls.executionClientLuksoUrl,
-    },
-    consensus: {
-        mainnet: urls.consensusClientMainnetUrl,
-        prater: urls.consensusClientPraterUrl,
-        gnosis: urls.consensusClientGnosisUrl,
-        lukso: urls.consensusClientLuksoUrl,
-    },
-};
-
-// Gets the client URL for a given network and type (execution or consensus)
+/**
+ * Gets the client URL for a given network and type (execution or consensus).
+ * @param network - The network for which the client URL is required.
+ * @param type - The type of client (execution or consensus).
+ * @returns The client URL for the specified network and type, or undefined if not found.
+ */
 export function getClientUrl(network: typeof networks[number], type: "execution" | "consensus"): string | undefined {
-    const clientUrl = urlsMap[type][network];
-    return clientUrl !== undefined ? clientUrl : undefined;
+  // Get the environment variable key for the specified type and network.
+  const envKey = `_DAPPNODE_GLOBAL_${type.toUpperCase()}_CLIENT_${network.toUpperCase()}`;
+
+  // Check if the environment variable is defined.
+  const envValue = process.env[envKey];
+  if (envValue !== undefined) {
+    // Call the appropriate function to get the complete URL.
+    const clientUrl = getJsonRpcApiFromDnpName(envValue)
+
+    // Return the complete client URL.
+    return clientUrl;
+  }
+
+  // Return undefined if environment variable is not defined.
+  return undefined;
 }
 
 export async function jsonRPCapiCallExecution(
