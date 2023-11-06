@@ -18,8 +18,6 @@ export function getClientUrl(network: typeof networks[number], clientType: "exec
     return envValue ? getJsonRpcApiFromDnpName(envValue) : undefined;
   } catch (error) {
     logger.error(`Error getting client URL from the dnp ${envKey} with value ${envValue}: ${error}`);
-    // Depending on how you want to handle errors, you could also return undefined here,
-    // or rethrow the error after logging it.
     return undefined;
   }
 }
