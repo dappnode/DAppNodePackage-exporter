@@ -8,23 +8,22 @@ import logger from "./logger.js";
  * @param type - The type of client (execution or consensus).
  * @returns The client URL for the specified network and type, or undefined if not found.
  */
-export function getClientUrl(network: typeof networks[number], type: "execution" | "consensus"): string | undefined {
-  // Get the environment variable key for the specified type and network.
-  const envKey = `_DAPPNODE_GLOBAL_${type.toUpperCase()}_CLIENT_${network.toUpperCase()}`;
-
-  // Check if the environment variable is defined.
+export function getClientUrl(network: typeof networks[number], clientType: "execution" | "consensus"): string | undefined {
+  // Get the dnpname of the client we want to call via env variable.
+  const envKey = `_DAPPNODE_GLOBAL_${clientType.toUpperCase()}_CLIENT_${network.toUpperCase()}`;
   const envValue = process.env[envKey];
-  if (envValue !== undefined) {
-    // Call the appropriate function to get the complete URL.
-    const clientUrl = getJsonRpcApiFromDnpName(envValue)
 
-    // Return the complete client URL.
-    return clientUrl;
+  try {
+    // If envValue is undefined, the function will return undefined by default. If not, it will try to get the client URL from the dnpname.
+    return envValue ? getJsonRpcApiFromDnpName(envValue) : undefined;
+  } catch (error) {
+    logger.error(`Error getting client URL from the dnp ${envKey} with value ${envValue}: ${error}`);
+    // Depending on how you want to handle errors, you could also return undefined here,
+    // or rethrow the error after logging it.
+    return undefined;
   }
-
-  // Return undefined if environment variable is not defined.
-  return undefined;
 }
+
 
 export async function jsonRPCapiCallExecution(
     url: string,
