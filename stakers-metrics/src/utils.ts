@@ -1,4 +1,4 @@
-import { networks, getJsonRpcApiFromDnpName } from "@dappnode/types";
+import { getJsonRpcApiFromDnpName, Network} from "@dappnode/types";
 import axios, { AxiosError } from "axios";
 import logger from "./logger.js"; 
 
@@ -8,7 +8,7 @@ import logger from "./logger.js";
  * @param type - The type of client (execution or consensus).
  * @returns The client URL for the specified network and type, or undefined if not found.
  */
-export function getClientUrl(network: typeof networks[number], clientType: "execution" | "consensus"): string | undefined {
+export function getClientUrl(network: Network, clientType: "execution" | "consensus"): string | undefined {
   // Get the dnpname of the client we want to call via env variable.
   const envKey = `_DAPPNODE_GLOBAL_${clientType.toUpperCase()}_CLIENT_${network.toUpperCase()}`;
   const envValue = process.env[envKey];
