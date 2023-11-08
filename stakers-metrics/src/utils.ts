@@ -1,31 +1,27 @@
-import { getUrlFromDnpName } from "@dappnode/types";
-import { networks } from "@dappnode/types";
+import { getJsonRpcApiFromDnpName, Network} from "@dappnode/types";
 import axios, { AxiosError } from "axios";
 import logger from "./logger.js"; 
 
-const urls = getUrlFromDnpName();
+/**
+ * Gets the client URL for a given network and type (execution or consensus).
+ * @param network - The network for which the client URL is required.
+ * @param type - The type of client (execution or consensus).
+ * @returns The client URL for the specified network and type, or undefined if not found.
+ */
+export function getClientUrl(network: Network, clientType: "execution" | "consensus"): string | undefined {
+  // Get the dnpname of the client we want to call via env variable.
+  const envKey = `_DAPPNODE_GLOBAL_${clientType.toUpperCase()}_CLIENT_${network.toUpperCase()}`;
+  const envValue = process.env[envKey];
 
-// Define the URL mappings for execution and consensus clients
-const urlsMap = {
-    execution: {
-        mainnet: urls.executionClientMainnetUrl,
-        prater: urls.executionClientPraterUrl,
-        gnosis: urls.executionClientGnosisUrl,
-        lukso: urls.executionClientLuksoUrl,
-    },
-    consensus: {
-        mainnet: urls.consensusClientMainnetUrl,
-        prater: urls.consensusClientPraterUrl,
-        gnosis: urls.consensusClientGnosisUrl,
-        lukso: urls.consensusClientLuksoUrl,
-    },
-};
-
-// Gets the client URL for a given network and type (execution or consensus)
-export function getClientUrl(network: typeof networks[number], type: "execution" | "consensus"): string | undefined {
-    const clientUrl = urlsMap[type][network];
-    return clientUrl !== undefined ? clientUrl : undefined;
+  try {
+    // If envValue is undefined, the function will return undefined by default. If not, it will try to get the client URL from the dnpname.
+    return envValue ? getJsonRpcApiFromDnpName(envValue) : undefined;
+  } catch (error) {
+    logger.error(`Error getting client URL from the dnp ${envKey} with value ${envValue}: ${error}`);
+    return undefined;
+  }
 }
+
 
 export async function jsonRPCapiCallExecution(
     url: string,
