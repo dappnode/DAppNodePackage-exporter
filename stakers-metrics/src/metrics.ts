@@ -41,6 +41,16 @@ const executionPeerCountMetric = new promClient.Gauge({
   },
 });
 
+const mevBoostMetric = new promClient.Gauge({
+  name: "mev_boost_enabled",
+  help: "MEV Boost status for each network (1 if enabled, 0 if disabled)",
+  labelNames: ["network"],
+  async collect() {
+    await Promise.all(networks.map((network) => collectMevBoostMetric(network)));
+  },
+});
+
+
 async function collectPeerCount(network: typeof networks[number], type: "execution" | "consensus") {
   const clientUrl = getClientUrl(network, type);
   if (!clientUrl) {
@@ -96,10 +106,25 @@ async function collectSyncingMetric(network: typeof networks[number], type: "exe
   metric.set({ network: network }, isSyncing);
 }
 
+async function collectMevBoostMetric(network: typeof networks[number]) {
+  console.log(`Collecting MEV Boost metric for network: ${network}`);
+  const mevBoostStatus = getMevBoostStatus(network);
+  mevBoostMetric.set({ network }, mevBoostStatus);
+}
+
+function getMevBoostStatus(network: typeof networks[number]): number {
+  const envKey = `_DAPPNODE_GLOBAL_MEVBOOST_${network.toUpperCase()}`;
+
+  const mevBoostValue = process.env[envKey];
+  logger.info(`MEV Boost value for network ${network}: ${mevBoostValue}`);
+
+  return mevBoostValue === "true" ? 1 : 0;
+}
 
 register.registerMetric(consensusPeerCountMetric);
 register.registerMetric(executionPeerCountMetric);
 register.registerMetric(executionSyncingMetric);
 register.registerMetric(consensusSyncingMetric);
+register.registerMetric(mevBoostMetric);
 
 export { register };
