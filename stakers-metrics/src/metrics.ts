@@ -107,7 +107,7 @@ async function collectSyncingMetric(network: typeof networks[number], type: "exe
 }
 
 async function collectMevBoostMetric(network: typeof networks[number]) {
-  console.log(`Collecting MEV Boost metric for network: ${network}`);
+  
   const mevBoostStatus = getMevBoostStatus(network);
   mevBoostMetric.set({ network }, mevBoostStatus);
 }
@@ -116,7 +116,7 @@ function getMevBoostStatus(network: typeof networks[number]): number {
   const envKey = `_DAPPNODE_GLOBAL_MEVBOOST_${network.toUpperCase()}`;
 
   const mevBoostValue = process.env[envKey];
-  logger.info(`MEV Boost value for network ${network}: ${mevBoostValue}`);
+  
 
   return mevBoostValue === "true" ? 1 : 0;
 }
