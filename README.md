@@ -2,14 +2,7 @@
 
 [![DAppNode Available](https://img.shields.io/badge/DAppNode-Available-brightgreen.svg)](http://my.dappnode/#/installer/dappnode-exporter.dnp.dappnode.eth)
 
-::⚠️
-Deprecation Notice
-
-**The `exporter` package has been deprecated.** Its content has been merged into the `DMS` package. 
-
-For more information and to access the `DMS` package, please visit the [DMS GitHub repository](https://github.com/dappnode/DAppNodePackage-DMS).
-:::
-
+⚠️ Deprecation Notice: **The `exporter` package has been deprecated.** Its content has been merged into the `DMS` package. For more information and to access the `DMS` package, please visit the [DMS GitHub repository](https://github.com/dappnode/DAppNodePackage-DMS).
 
 Package responsible of get metrics from the system to be able to check its healthy, based on the tools cadvisor and node_exporter.
 
