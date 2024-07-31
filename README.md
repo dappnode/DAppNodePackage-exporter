@@ -2,7 +2,7 @@
 
 [![DAppNode Available](https://img.shields.io/badge/DAppNode-Available-brightgreen.svg)](http://my.dappnode/#/installer/dappnode-exporter.dnp.dappnode.eth)
 
-:::warning
+::⚠️
 Deprecation Notice
 
 **The `exporter` package has been deprecated.** Its content has been merged into the `DMS` package. 
