@@ -17,11 +17,16 @@ services:
       args:
         UPSTREAM_VERSION: v0.47.1
     restart: always
+    privileged: true
     volumes:
       - "/:/rootfs:ro"
-      - "/var/run:/var/run:rw"
+      - "/var/run:/var/run:ro"
       - "/sys:/sys:ro"
       - "/var/lib/docker/:/var/lib/docker:ro"
+      - "/dev/disk/:/dev/disk:ro"
+    devices:
+      - "/dev/kmsg:/dev/kmsg"
+
     image: "cadvisor.dappnode-exporter.dnp.dappnode.eth:1.0.3"
   stakers-metrics:
     build:
