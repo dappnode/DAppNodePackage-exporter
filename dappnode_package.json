@@ -35,8 +35,13 @@
         "EXECUTION_CLIENT_GNOSIS",
         "CONSENSUS_CLIENT_GNOSIS",
         "EXECUTION_CLIENT_LUKSO",
-        "CONSENSUS_CLIENT_LUKSO"
+        "CONSENSUS_CLIENT_LUKSO",
+        "MEVBOOST_MAINNET",
+        "MEVBOOST_GNOSIS",
+        "MEVBOOST_PRATER",
+        "MEVBOOST_LUKSO"
       ],
+     
       "services": ["stakers-metrics"]
     }
   ],
